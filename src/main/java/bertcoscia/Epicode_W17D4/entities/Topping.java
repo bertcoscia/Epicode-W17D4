@@ -1,17 +1,23 @@
 package bertcoscia.Epicode_W17D4.entities;
 
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.util.List;
+
+@Entity
+@NoArgsConstructor
 @Setter
 @Getter
 public class Topping extends Item {
-    private String name;
+
+    @ManyToMany
+    List<Pizza> pizzaList;
 
     public Topping(String name, int calories, double price) {
-        super(calories, price);
-        this.name = name;
+        super(name, calories, price);
     }
 
     @Override

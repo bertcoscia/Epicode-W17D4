@@ -1,21 +1,27 @@
-import bertcoscia.Epicode_W17D4.entities.Item;
-import bertcoscia.Epicode_W17D4.entities.Topping;
+package bertcoscia.Epicode_W17D4.entities;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
-
+@Entity
+@NoArgsConstructor
 @Getter
 @Setter
 public class Pizza extends Item {
-    private String name;
+
+    @ManyToMany()
     private List<Topping> toppingList;
+
+    @Column(name = "is_xl")
     private boolean isXl = false;
 
     public Pizza(String name, List<Topping> toppingList, boolean isXl) {
-        super(700, 4.3);
-        this.name = name;
+        super(name, 700, 4.3);
+        this.calories = this.getCalories() + toppingList.stream().mapToInt(Item::getCalories).sum();
+        this.price = this.getPrice() + toppingList.stream().mapToDouble(Item::getPrice).sum();
         this.toppingList = toppingList;
         this.isXl = isXl;
     }
